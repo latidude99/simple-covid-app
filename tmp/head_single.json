@@ -1,0 +1,17 @@
+{
+  'Cache-Control': 'public, max-age=60',
+  'Content-Length': '0',
+  'Content-Type': 'application/vnd.PHE-COVID19.v1+json; charset=utf-8',
+  'Content-Encoding': 'gzip',
+  'Content-Location': '/v1/data?filters=areaType=nation&structure=%7B%22name%22:%22areaName%22%7D',
+  'Last-Modified': 'Wed, 26 Aug 2020 14:15:06 GMT',
+  'Request-Context': 'appId=cid-v1:10ef5909-f7e8-4267-86f0-f575a2bdc89e',
+  'X-Frame-Options': 'deny',
+  'Content-Security-Policy': "default-src 'none'; style-src 'self' 'unsafe-inline'",
+  'x-phe-media-type': 'PHE-COVID19.v1',
+  'x-xss-protection': '1; mode=block',
+  'Strict-Transport-Security': 'max-age=31536000; includeSubdomains; preload',
+  'X-Content-Type-Options': 'nosniff',
+  'referrer-policy': 'origin-when-cross-origin,strict-origin-when-cross-origin',
+  'Date': 'Wed, 26 Aug 2020 15:08:10 GMT'
+}

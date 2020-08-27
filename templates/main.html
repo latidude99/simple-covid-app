@@ -19,6 +19,7 @@
     <thead>
       <tr>
         <th>Date</th>
+        <th>Last updated</th>
         <th>Country</th>
         <th>Area</th>
         <th>New cases</th>
@@ -28,21 +29,25 @@
       </tr>
     </thead>
     <tbody>
+    {% for u in update %}
       <tr>
-        <td>23.08.2020</td>
+        <td>{{ current_date }}</td>
+        <td>{{ u.date }}</td>
         <td>United Kingdom</td>
-        <td>England</td>
-        <td>918</td>
-        <td>130232</td>
-        <td>43</td>
-        <td>35044</td>
+        <td>{{ u.name }}</td>
+        <td>{{ u.new_cases }}</td>
+        <td>{{ u.total_cases }}</td>
+        <td>{{ u.new_deaths }}</td>
+        <td>{{ u.total_deaths }}</td>
       </tr>
+    {% endfor %}
     </tbody>
   </table>
   <br><br>
   <div>
-    <p>powered by https://api.coronavirus.data.gov.uk/v1/data</p>
-    <p>desidned by latidude99@gmail.com</p>
+    <img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">
+    <p>powered by: https://api.coronavirus.data.gov.uk/v1/data</p>
+    <p>desidned by: latidude99@gmail.com</p>
   </div>
   </div>
 </div>
