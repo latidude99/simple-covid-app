@@ -3,8 +3,8 @@
 
 from uk_covid19 import Cov19API
 import requests
-import json
-from demjson import decode
+#import json
+#from demjson import decode
 from update import Update
 
 HEAD_URL = 'https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=nation&structure={"name":"areaName"}'
@@ -41,7 +41,7 @@ def read_last_update():
     #print(head)
     #print(head.headers)
     #head_decoded = decode(head)
-    return head.headers['Last-Modified']
+    return head.headers[LAST_MODIFIED]
 
 def convert_update_to_dict():
     nations = [
@@ -92,7 +92,7 @@ def get_nations_data():
         #print(Update.last_update)
         #print(Update.data_json)
 
-    print(convert_update_to_dict())
+    #print(convert_update_to_dict())
     return convert_update_to_dict()
 
 
