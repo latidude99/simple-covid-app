@@ -6,8 +6,14 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-    <meta charset="UTF-8">
-    <title>COVID</title>
+  <meta charset="UTF-8">
+  <style>
+      .panel, .panel-group .panel-heading+.panel-collapse>.panel-body{
+          border: none;
+          box-shadow: none;
+      }
+  </style>
+  <title>COVID</title>
 </head>
 
 <body>
@@ -20,7 +26,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">latidude99's python playground</a>
+            <a class="navbar-brand" href="http://py.latidude99.com">latidude99's python playground</a>
         </div>
     </div>
 </nav>
@@ -29,43 +35,209 @@
   <div class="row">
       <h2>COVID-19</h2>
       <p>Selected data from the official UK government sources</p>
+      <p>Last Update: {{ release_date }}</p>
   </div>
-  <div class="table-responsive">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Last updated</th>
-        <th>Country</th>
-        <th>Area</th>
-        <th>New cases</th>
-        <th>Total cases</th>
-        <th>New deaths</th>
-        <th>Total deaths</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for u in update %}
-      <tr>
-        <td>{{ current_date }}</td>
-        <td>{{ u.date }}</td>
-        <td>United Kingdom</td>
-        <td>{{ u.name }}</td>
-        <td>{{ u.new_cases }}</td>
-        <td>{{ u.total_cases }}</td>
-        <td>{{ u.new_deaths }}</td>
-        <td>{{ u.total_deaths }}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+
+    <div class="row">
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse1">Show data</a>
+            </h4>
+          </div>
+        <div id="collapse1" class="panel-collapse collapse">
+        <h6>'New deaths' and 'Total deaths' data are delayed 1-4 days, depending on the country</h6>
+
+          <ul class="nav nav-tabs ">
+              <li class="active"><a data-toggle="tab" href="#uk">United Kingdom</a></li>
+              <li><a data-toggle="tab" href="#england">England</a></li>
+              <li><a data-toggle="tab" href="#scotland">Scotland</a></li>
+              <li><a data-toggle="tab" href="#wales">Wales</a></li>
+              <li><a data-toggle="tab" href="#northernir">Northern Ireland</a></li>
+          </ul>
+
+          <div class="tab-content">
+
+          <div id="uk" class="tab-pane fade in active">
+              <h3>England</h3>
+              <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>New cases</th>
+                    <th>Total cases</th>
+                    <th>New deaths</th>
+                    <th>Total deaths</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for u in update[0] %}
+                  <tr>
+                    <td>{{ u.date }}</td>
+                    <td>{{ u.name }}</td>
+                    <td>{{ u.new_cases }}</td>
+                    <td>{{ u.total_cases }}</td>
+                    <td>{{ u.new_deaths }}</td>
+                    <td>{{ u.total_deaths }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+
+            <div id="england" class="tab-pane fade">
+              <h3>England</h3>
+              <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>New cases</th>
+                    <th>Total cases</th>
+                    <th>New deaths</th>
+                    <th>Total deaths</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for u in update[1] %}
+                  <tr>
+                    <td>{{ u.date }}</td>
+                    <td>{{ u.name }}</td>
+                    <td>{{ u.new_cases }}</td>
+                    <td>{{ u.total_cases }}</td>
+                    <td>{{ u.new_deaths }}</td>
+                    <td>{{ u.total_deaths }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+
+        <div id="scotland" class="tab-pane fade">
+          <h3>Scotland</h3>
+          <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>New cases</th>
+                    <th>Total cases</th>
+                    <th>New deaths</th>
+                    <th>Total deaths</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for u in update[2] %}
+                  <tr>
+                    <td>{{ u.date }}</td>
+                    <td>{{ u.name }}</td>
+                    <td>{{ u.new_cases }}</td>
+                    <td>{{ u.total_cases }}</td>
+                    <td>{{ u.new_deaths }}</td>
+                    <td>{{ u.total_deaths }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+        <div id="wales" class="tab-pane fade">
+          <h3>Wales</h3>
+          <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>New cases</th>
+                    <th>Total cases</th>
+                    <th>New deaths</th>
+                    <th>Total deaths</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for u in update[3] %}
+                  <tr>
+                    <td>{{ u.date }}</td>
+                    <td>{{ u.name }}</td>
+                    <td>{{ u.new_cases }}</td>
+                    <td>{{ u.total_cases }}</td>
+                    <td>{{ u.new_deaths }}</td>
+                    <td>{{ u.total_deaths }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+        <div id="northernir" class="tab-pane fade">
+          <h3>Northern Ireland</h3>
+          <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Area</th>
+                    <th>New cases</th>
+                    <th>Total cases</th>
+                    <th>New deaths</th>
+                    <th>Total deaths</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for u in update[4] %}
+                  <tr>
+                    <td>{{ u.date }}</td>
+                    <td>{{ u.name }}</td>
+                    <td>{{ u.new_cases }}</td>
+                    <td>{{ u.total_cases }}</td>
+                    <td>{{ u.new_deaths }}</td>
+                    <td>{{ u.total_deaths }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+      </div>
+    </div>
   </div>
+
+
+  </div>
+
   <br>
-  {% for comment in comments %}
   <div class="row">
-      {{ comment }}
+    <a data-toggle="collapse" href="#collapse2" style="font-size: large;">Comments <span class="badge">{{ comments|length }}</span></a><br>
   </div>
-  {% endfor %}
+  <div id="collapse2" class="panel-collapse collapse">
+      <div class="panel-group">
+          {% for c in comments %}
+          <div class="row">
+
+            <ul style="list-style: none; padding: 10px; margin-right:10px;margin-left:10px;">
+                <li>
+                    <div class="shadow-sm p-2 mb-0 bg-grey">
+                        <span style="display: inline-block; float:left; color: #808080;">{{ c.user }} wrote:</span>
+                        <span style="display: inline-block; float:right; color: darkgrey; font-style: normal;">url: {{ c.url }},  time: {{c.time}}</span>
+                        <br>
+                        <span style="color: black;padding: 10px; margin-right:10px;margin-left:10px;">{{ c.text }}</span>
+                    </div>
+                </li>
+            </ul>
+
+          </div>
+          {% endfor %}
+      </div>
+  </div>
 
   <br>
   <div class="row">
@@ -75,10 +247,16 @@
                     <input type="submit" class="btn btn-success" value="Post comment">
                 </form>
             </div>
+
+  <br><br>
+  <div class="row">
+       <form action="./" method="GET">
+              <input type="submit" class="btn btn-primary" value="Back">
+       </form>
+  </div>
   <div class="row">
     <br><br>
     <h6>powered by: https://api.coronavirus.data.gov.uk/v1/data</h6>
-    <h6>desidned by: latidude99@gmail.com</h6>
     <img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">
   </div>
 
