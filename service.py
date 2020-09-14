@@ -45,79 +45,64 @@ def read_last_update():
     #head_decoded = decode(head)
     return head.headers[LAST_MODIFIED]
 
-def convert_update_to_dict():
-    nations = [
-        {
-            'date': Update.last_update,
-            'name': Update.data_json['data'][0]['areaName'],
-            'new_cases': Update.data_json['data'][0]['newCasesByPublishDate'],
-            'total_cases': Update.data_json['data'][0]['cumCasesByPublishDate'],
-            'new_deaths': Update.data_json['data'][0]['newDeaths28DaysByDeathDate'],
-            'total_deaths': Update.data_json['data'][0]['cumDeaths28DaysByDeathDate']
-        },
-        {
-            'date': Update.last_update,
-            'name': Update.data_json['data'][1]['areaName'],
-            'new_cases': Update.data_json['data'][1]['newCasesByPublishDate'],
-            'total_cases': Update.data_json['data'][1]['cumCasesByPublishDate'],
-            'new_deaths': Update.data_json['data'][1]['newDeaths28DaysByDeathDate'],
-            'total_deaths': Update.data_json['data'][1]['cumDeaths28DaysByDeathDate']
-        },
-        {
-            'date': Update.last_update,
-            'name': Update.data_json['data'][2]['areaName'],
-            'new_cases': Update.data_json['data'][2]['newCasesByPublishDate'],
-            'total_cases': Update.data_json['data'][2]['cumCasesByPublishDate'],
-            'new_deaths': Update.data_json['data'][2]['newDeaths28DaysByDeathDate'],
-            'total_deaths': Update.data_json['data'][2]['cumDeaths28DaysByDeathDate']
-        },
-        {
-            'date': Update.last_update,
-            'name': Update.data_json['data'][3]['areaName'],
-            'new_cases': Update.data_json['data'][3]['newCasesByPublishDate'],
-            'total_cases': Update.data_json['data'][3]['cumCasesByPublishDate'],
-            'new_deaths': Update.data_json['data'][3]['newDeaths28DaysByDeathDate'],
-            'total_deaths': Update.data_json['data'][3]['cumDeaths28DaysByDeathDate']
-        }
-    ]
-    return nations
-
 
 def convert_update_to_obj():
+    id = 0
     uk = []
     json_list_uk = Update.data_json_uk['data']
     for d in json_list_uk:
-        covid_data_obj = CovidData(d['date'],
+        covid_data_obj = CovidData(id,
+                                   d['date'],
                                    d['areaName'],
                                    d['newCasesByPublishDate'],
                                    d['cumCasesByPublishDate'],
                                    d['newDeaths28DaysByDeathDate'],
                                    d['cumDeaths28DaysByDeathDate'])
+        replace_none_with_nodata(covid_data_obj)
+        id = id + 1
         uk.append(covid_data_obj)
 
+    en_id = 0
+    sco_id = 0
+    wa_id = 0
+    ni_id = 0
     en = []
     sco = []
     wa = []
     ni = []
     json_list = Update.data_json['data']
     for d in json_list:
-        covid_data_obj = CovidData(d['date'],
+        covid_data_obj = CovidData(id,
+                                   d['date'],
                                    d['areaName'],
                                    d['newCasesByPublishDate'],
                                    d['cumCasesByPublishDate'],
                                    d['newDeaths28DaysByDeathDate'],
                                    d['cumDeaths28DaysByDeathDate'])
+
         if d['areaName'] == 'England':
+            covid_data_obj.id = en_id
+            replace_none_with_nodata(covid_data_obj)
+            en_id = en_id + 1
             en.append(covid_data_obj)
         if d['areaName'] == 'Scotland':
+            covid_data_obj.id = sco_id
+            replace_none_with_nodata(covid_data_obj)
+            sco_id = sco_id + 1
             sco.append(covid_data_obj)
         if d['areaName'] == 'Wales':
+            covid_data_obj.id = wa_id
+            replace_none_with_nodata(covid_data_obj)
+            wa_id = wa_id + 1
             wa.append(covid_data_obj)
         if d['areaName'] == 'Northern Ireland':
+            covid_data_obj.id = ni_id
+            replace_none_with_nodata(covid_data_obj)
+            ni_id = ni_id + 1
             ni.append(covid_data_obj)
-
     covid_data_list = [uk, en, sco, wa, ni]
     return covid_data_list
+
 
 def get_nations_data():
     current_update = read_last_update()
@@ -131,26 +116,36 @@ def get_nations_data():
         Update.last_update = current_update
         release_timestamp = Cov19API.get_release_timestamp()
         Update.release_date = datetime.fromisoformat(release_timestamp.strip("Z")).strftime("%d.%m.%Y %H:%M:%S")
-        print(datetime.now())
-        print(Update.release_date)
-    return convert_update_to_obj()
+        #print(datetime.now())
+        #print(Update.release_date)
+        Update.data_obj_list = convert_update_to_obj()
+        print('inside service.get_nations_data()')
+    return Update.data_obj_list
 
 
 def create_comment(request):
     time = datetime.strptime(str(datetime.now().replace(microsecond=0)), '%Y-%m-%d %H:%M:%S')
     text = request.form['comment']
-    url = request.remote_addr
-    comment = Comment(time,
-                      'Anonymous',
-                      url,
-                      text,
-                      'no',
-                      'no')
-    print(comment)
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        url = request.environ['REMOTE_ADDR']
+    else:
+        url = request.environ['HTTP_X_FORWARDED_FOR']
+    comment = Comment(time, 'anonymous', url, text, 'no', 'no')
+    #print(comment)
     return comment
 
 
-
+def replace_none_with_nodata(covid_data_obj):
+    #if covid_data_obj.id < 30:
+    if covid_data_obj.new_cases is None:
+        covid_data_obj.new_cases = 'no data'
+    if covid_data_obj.total_cases is None:
+        covid_data_obj.total_cases = 'no data'
+    if covid_data_obj.new_deaths is None:
+        covid_data_obj.new_deaths = 'no data'
+    if covid_data_obj.total_deaths is None:
+        covid_data_obj.total_deaths = 'no data'
+    return covid_data_obj
 
 
 

@@ -1,6 +1,7 @@
 class CovidData:
 
-    def __init__(self, date, name, new_cases, total_cases, new_deaths, total_deaths):
+    def __init__(self, id, date, name, new_cases, total_cases, new_deaths, total_deaths):
+        self.id = id
         self.date = date
         self.name = name
         self.new_cases = new_cases
@@ -9,7 +10,8 @@ class CovidData:
         self.total_deaths = total_deaths
 
     def __str__(self):
-        return self.date + \
+        return str(self.id) +\
+               " " + self.date + \
                " " + self.name + \
                " " + str(self.new_cases) + \
                " " + str(self.total_cases) + \

@@ -5,3 +5,5 @@ class Update:
     data_json = ''
     data_json_uk = ''
 
+    data_obj_list = ''
+
