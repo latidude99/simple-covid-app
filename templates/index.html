@@ -1,59 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-    <meta charset="UTF-8">
-    <title>COVID</title>
-</head>
+{% extends "base.html" %}
+{% block content %}
 
-<body>
-<nav class="navbar navbar-inverse">
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="http://py.latidude99.com">piotr's python playground</a>
+
+        <div class="row">
+            <h3>Please select one of the options</h3>
+            <br><br>
         </div>
+        <div class="row">
+            <form action="{{ url_for('coviduk') }}" method="GET">
+                <input type="submit" class="btn btn-primary" value="COVID19, UK" onclick="$('#loading').show();">
+            </form>
+            <br>
+            <p>Coronavirus data from the official UK government sources.</p>
+            <p>Presented in a table with numbers shown for the UK as a whole as well as individual nations.</p>
+            <p>Also, includes line and bar charts to help visualise the data.</p>
+        </div>
+
+        <div class="row">
+            <br>
+            <br>
+            <img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">
+        </div>
+
+        <div id="loading" style="display:none;">
+            <p>Fetching data...</p>
+            <img src="{{ url_for('static', filename='loading8.gif') }}" style="width:400px;height:300px;" alt=""/>
+        </div>
+
     </div>
-</nav>
-<div class="container">
 
-  <div class="row">
-      <h3>Please select one of the options</h3>
-      <br><br>
-  </div>
-  <div class="row">
-       <form action="{{url_for('coviduk')}}" method="GET">
-              <input type="submit" class="btn btn-primary" value="COVID19, UK" onclick="$('#loading').show();">
-       </form>
-      <br>
-      <p>Coronavirus data from the official UK government sources.</p>
-      <p>Presented in a table with numbers shown for the UK as a whole as well as individual nations.</p>
-      <p>Also, includes line and bar charts to help visualise the data.</p>
-  </div>
-
-  <div class="row">
-    <br>
-    <br>
-    <img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">
-  </div>
-
-  <div id="loading" style="display:none;">
-      <p>Fetching data...</p>
-      <img src="{{ url_for('static', filename='loading8.gif') }}" style="width:400px;height:300px;"  alt="" />
-  </div>
-
-</div>
-
-</body>
-</html>
-</body>
-</html>
+{% endblock %}
